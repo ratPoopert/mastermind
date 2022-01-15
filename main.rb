@@ -15,14 +15,21 @@ def evaluate_guess(guess, code)
     win
     return
   end
+  
+  exact_guesses = code.zip(guess_array)
+                      .select {|pair| pair[0] == pair[1]}
+  black_key_pegs = exact_guesses.count
 
-  guess_array.length.times do |i|
-    if guess_array[i] == code[i]
-      black_key_pegs += 1
-    elsif code.include?(guess_array[i])
+  remaining_pairs = code.zip(guess_array)
+                        .delete_if {|pair| exact_guesses.include?(pair)}
+  remaining_code, remaining_guess = remaining_pairs.transpose
+  remaining_guess.each do |value|
+    if remaining_code.include?(value)
       white_key_pegs += 1
+      remaining_code.delete(value)
     end
   end
+
   p guess_array
   p code
   puts <<-FEEDBACK
@@ -64,11 +71,11 @@ def play
   puts "What is your name?"
   player_name = gets.chomp
   
-  code = [1, 1, 2, 2]
-  # 4.times do
-    # code_peg = rand(1..6)
-    # code.push(code_peg)
-  # end
+  code = []
+  4.times do
+    code_peg = rand(1..6)
+    code.push(code_peg)
+  end
   
   puts code_chosen_message
   number_of_guesses = 0
