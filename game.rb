@@ -22,7 +22,7 @@ class Game
     @code_maker = CodeMaker.new(@player.role)
     @code_breaker = CodeBreaker.new(@player.role)
     @code = @code_maker.make_code
-    until @code.broken? || @code_breaker.attempts = @max_attempts do
+    until @code.broken? || @code_breaker.attempts == @max_attempts do
       @code_breaker.break_code(@code)
       @code_maker.give_feedback(@code_breaker.guess)
     end
