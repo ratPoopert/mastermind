@@ -33,4 +33,8 @@ class Game
     display_result
     @player.play_again? ? play : system 'exit'
   end
+
+  def welcome_message
+    "Let's play Mastermind!\n"
+  end
 end
