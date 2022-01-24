@@ -1,113 +1,13 @@
 # frozen_string_literal: true
 
-# A game of Mastermind
-def end_game(code)
-  puts "The computer wins! Their code was #{code.join('')}."
-  play if play_again?
-end
-
-def evaluate_guess(guess, code)
-  black_key_pegs = 0
-  white_key_pegs = 0
-  guess_array = create_guess_array(guess)
-
-  if guess_array == code
-    win
-    return
-  end
-  
-  exact_guesses = code.zip(guess_array)
-                      .select {|pair| pair[0] == pair[1]}
-  black_key_pegs = exact_guesses.count
-
-  remaining_pairs = code.zip(guess_array)
-                        .delete_if {|pair| exact_guesses.include?(pair)}
-  remaining_code, remaining_guess = remaining_pairs.transpose
-  remaining_guess.each do |value|
-    if remaining_code.include?(value)
-      white_key_pegs += 1
-      remaining_code.delete(value)
-    end
-  end
-
-  p guess_array
-  p code
-  puts <<-FEEDBACK
-  The computer has some feedback about your guess:
-    Black key pegs: #{black_key_pegs}
-    White key pegs: #{white_key_pegs}
-  FEEDBACK
-end
-
-def create_guess_array(guess)
-  guess_array = []
-  guess.each_char { |char| guess_array.push(char.to_i)}
-  guess_array
-end
-
-def get_guess(guess_prompt)
-  puts guess_prompt
-  gets.chomp
-end
-
-def guess_error(guess)
-  "I'm sorry, but #{guess} is not a valid guess. Please try again."
-end
-
-def guess_prompt
-  "Please enter a guess of 4-digits, each ranging from 1 to 6."
-end
-
-def guess_valid?(guess)
-  guess.match(/\A[1-6]{4}\z/)
-end
-
-def play
-  code_chosen_message = "The computer has chosen the code!"
-  welcome_message = "Let's play Mastermind!\n"
-  win_message = "You guessed the computer's code! You won!"
-  puts welcome_message
-  
-  puts "What is your name?"
-  player_name = gets.chomp
-  
-  code = []
-  4.times do
-    code_peg = rand(1..6)
-    code.push(code_peg)
-  end
-  
-  puts code_chosen_message
-  number_of_guesses = 0
-  until number_of_guesses == 12
-    guess = ""
-    number_of_guesses += 1
-    puts "Guess number: #{number_of_guesses}"
-    loop do
-      guess = get_guess(guess_prompt) 
-      break if guess_valid?(guess)
-
-      puts guess_error(guess)
-    end
-    win if winner?(guess, code)
-    evaluate_guess(guess, code)
-  end
-  end_game(code)
-end
-
-def play_again?
-  puts "Enter 'Y' to play again. Enter any other key to exit."
-  gets.chomp.downcase == 'y'
-end
-
-def win
-  puts "You guessed the computer's code! You won!"
-  play if play_again?
-end
-
-def winner?(guess, code)
-  guess_array = create_guess_array(guess)
-  guess_array == code
-end
-
-play
+# 1. Display a title screen until the player presses Enter.
+# 2. Ask the player for their name.
+# 3. Greet the player by name and ask them if the way to play as the Codemaker or the Codebreaker.
+# 4. The Codemaker creates the master_code.
+# 5. The Codebreaker guesses the code.
+# 6. If the guess is correct, the Codebreaker wins and the game ends. Proceed to Step 10.
+# 7. If the Codebreaker has made 12 incorrect guesses, the Codemaker wins. Proceed to Step 10.
+# 8. The Codemaker compares the guess to the master_code and provides feedback to the Codebreaker.
+# 9. The Codebreaker analyzes the feedback. Return to Step 6.
+# 10. Announce the winner.
+# 11. Ask the player if they want to play again. If yes, return to Step 3. If not, exit the game.
