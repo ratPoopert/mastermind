@@ -3,7 +3,7 @@
 # Messages for the user to read.
 module Display
   def title_screen
-    <<~'TITLE_SCREEN'
+    <<~TITLE_SCREEN
        __  __           _                      _           _ 
       |  \/  |         | |                    (_)         | |
       | \  / | __ _ ___| |_ ___ _ __ _ __ ___  _ _ __   __| |
@@ -13,5 +13,9 @@ module Display
 
                   Press ENTER to continue.
     TITLE_SCREEN
+  end
+
+  def player_name_prompt
+    "What is your name?"
   end
 end
