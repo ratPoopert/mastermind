@@ -14,4 +14,4 @@ require './game.rb'
 # 10. Announce the winner.
 # 11. Ask the player if they want to play again. If yes, return to Step 3. If not, exit the game.
 
-game = Game.new
+Game.new

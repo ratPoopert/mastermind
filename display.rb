@@ -15,7 +15,7 @@ module Display
     TITLE_SCREEN
   end
 
-  def player_name_prompt
-    "What is your name?"
+  def name_prompt
+    'What is your name?'
   end
 end
