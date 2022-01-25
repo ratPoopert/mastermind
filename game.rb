@@ -1,40 +1,62 @@
 # frozen_string_literal: true
 
-require_relative 'code_breaker'
-require_relative 'code_maker'
-require_relative 'display'
-require_relative 'player'
+require './codemaker.rb'
+require './display.rb'
+require './input.rb'
+require './player.rb'
 
-# Handles the functionality of a Mastermind game.
+# Controls Mastermind game functionality.
 class Game
+  include Input
   include Display
 
   def initialize
-    puts welcome_message
+    display_title_screen
     @player = Player.new
-    @game_number = 0
+    play_game
   end
 
-  def play
-    @game_number += 1
-    max_attempts = 12
+  def play_game
+    system 'clear'
     @player.choose_role
-    @code_maker = CodeMaker.new(@player.role)
-    @code_breaker = CodeBreaker.new(@player.role)
-    @code = @code_maker.make_code
-    until @code.broken? || @code_breaker.attempts == @max_attempts do
-      @code_breaker.break_code(@code)
-      @code_maker.give_feedback(@code_breaker.guess)
-    end
+    @code_maker = CodeMaker.new
+    @code_breaker = CodeBreaker.new
+    @master_code = @code_maker.code
+    take_turns
     end_game
   end
 
-  def end_game
-    display_result
-    @player.play_again? ? play : system 'exit'
+  def take_turns
+    @current_turn = 0
+    loop do
+      @current_turn += 1
+      @code_breaker.guess_code(@current_turn)
+      check_for_winner
+      return if @winner
+
+      system 'clear'
+      @code_maker.give_feedback(@code_breaker.current_guess)
+      @code_breaker.analyze_feedback
+    end
   end
 
-  def welcome_message
-    "Let's play Mastermind!\n"
+  def check_for_winner
+    if @code_breaker.current_guess.value == @master_code.value
+      @winner = @code_breaker
+    elsif @current_turn == 12
+      @winner = @code_maker
+    end
+  end
+
+  def end_game
+    puts display_result(@winner)
+    puts announce_winner(@winner, @player.role)
+    play_again? ? play_game : (system 'exit')
+  end
+
+  def display_title_screen
+    puts title_screen
+    gets
+    system 'clear'
   end
 end
