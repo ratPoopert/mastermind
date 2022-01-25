@@ -6,7 +6,8 @@ require './human.rb'
 
 # Represents the human player of a Mastermind game.
 class Player
-  include Display, Input
+  include Input
+  include Display
 
   attr_reader :name, :role
 
