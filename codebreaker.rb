@@ -8,7 +8,7 @@ class CodeBreaker
     @possible_guesses = all_possible_guesses
   end
 
-  def guess_code(current_turn)
+  def guess_code(_current_turn)
     @current_guess = @possible_guesses.shift
     @possible_guesses
   end

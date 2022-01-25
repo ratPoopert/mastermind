@@ -6,7 +6,7 @@ require './display.rb'
 # Handles functionality for the Codemaker role.
 class CodeMaker
   include Display
-  
+
   attr_reader :code
 
   def initialize

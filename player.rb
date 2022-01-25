@@ -12,12 +12,10 @@ class Player
   attr_reader :name, :role
 
   def initialize
-    @name = player_name
-    puts greet_player(@name)
+    @name = enter_player_name
   end
 
   def choose_role
-    @role = choose_player_role(self)
-    @role.prepend(Human)
+    @role = choose_player_role(self).prepend(Human)
   end
 end

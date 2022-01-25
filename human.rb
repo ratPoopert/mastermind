@@ -16,8 +16,8 @@ module Human
   end
 
   def give_feedback(current_guess)
-    current_guess.compare(self.code)
-    enter_feedback(current_guess, self.code)
+    current_guess.compare(code)
+    enter_feedback(current_guess, code)
   end
 
   def analyze_feedback

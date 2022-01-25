@@ -79,19 +79,28 @@ module Display
   end
 
   def exact_feedback_prompt
-    "Enter the number of digits in the computer's guess that match the Master Code in value and position:"
+    'Enter EXACT matches (value & position):'
   end
 
   def partial_feedback_prompt
-    "Enter the number of remaining digits in the computer's guess that match the Master Code in value, but NOT position."
+    'Enter PARTIAL matches (value only):'
   end
 
   def invalid_feedback_error(input)
     "I'm sorry, but #{input} is not the correct number of matches. Please try again!"
   end
 
-  def display_result(winner, player_role)
+  def announce_winner(winner, player_role)
     winner.class.name == player_role.to_s ? "\nYou won!" : "\nYou lost!"
+  end
+
+  def display_result(winner)
+    case winner.class.name
+    when 'CodeMaker'
+      'The Master Code was not broken!'
+    when 'CodeBreaker'
+      'The Master Code was broken!'
+    end
   end
 
   def play_again_prompt

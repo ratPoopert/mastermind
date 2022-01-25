@@ -8,12 +8,13 @@ require './display.rb'
 module Input
   include Display
 
-  def player_name
+  def enter_player_name
     puts name_prompt
     gets.chomp
   end
 
   def choose_player_role(player)
+    puts greet_player(player.name)
     puts role_prompt(player.name)
     input = gets.chomp
     return CodeMaker if input == '1'
@@ -57,7 +58,7 @@ module Input
     puts invalid_feedback_error(input)
     enter_partial_feedback(partial_match_count)
   end
-  
+
   def enter_feedback(current_guess, code)
     puts display_current_guess(current_guess, code)
     enter_exact_feedback(current_guess.exact_match_count)
@@ -67,6 +68,6 @@ module Input
   def play_again?
     puts play_again_prompt
     input = gets.chomp.downcase
-    input == "y"
+    input == 'y'
   end
 end

@@ -7,7 +7,8 @@ require './player.rb'
 
 # Controls Mastermind game functionality.
 class Game
-  include Display, Input
+  include Input
+  include Display
 
   def initialize
     display_title_screen
@@ -22,8 +23,7 @@ class Game
     @code_breaker = CodeBreaker.new
     @master_code = @code_maker.code
     take_turns
-    puts display_result(@winner, @player.role)
-    play_again? ? play_game : (system 'exit')
+    end_game
   end
 
   def take_turns
@@ -46,6 +46,12 @@ class Game
     elsif @current_turn == 12
       @winner = @code_maker
     end
+  end
+
+  def end_game
+    puts display_result(@winner)
+    puts announce_winner(@winner, @player.role)
+    play_again? ? play_game : (system 'exit')
   end
 
   def display_title_screen
